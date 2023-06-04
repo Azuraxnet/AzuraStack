@@ -1,6 +1,5 @@
 package com.azura.item.builder;
 
-import com.azura.item.defaults.BlankItemEditor;
 import com.azura.item.editors.ItemEditor;
 import com.azura.item.exception.InvalidStackSizeException;
 import com.azura.item.exception.MaterialParseException;
