@@ -37,3 +37,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+
+# I added these
+.idea/encodings.xml
+### Sonar Lint ###
+.idea/sonarlint/

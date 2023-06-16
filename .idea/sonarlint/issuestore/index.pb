@@ -7,3 +7,5 @@ o
 ?azura-item/src/main/java/com/azura/item/editors/ItemEditor.java,c\9\c98f5fd4ad3ae9af85665de008f2afe15c8c4240
 E
 azura-commons/pom.xml,8\5\855b0eec8bfaa7203f558b35bd227a6388c6a8e5
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec

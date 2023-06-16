@@ -7,3 +7,5 @@ z
 Jazura-item/src/main/java/com/azura/item/storage/ItemStackConfigLoader.java,8\6\869e373a5238c739623323f637ae1d27591e73f7
 o
 ?azura-item/src/main/java/com/azura/item/editors/ItemEditor.java,c\9\c98f5fd4ad3ae9af85665de008f2afe15c8c4240
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
