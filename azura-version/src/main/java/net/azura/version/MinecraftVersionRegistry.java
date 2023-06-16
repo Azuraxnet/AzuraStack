@@ -26,7 +26,8 @@ public class MinecraftVersionRegistry<E> implements VersionRegistry<MinecraftVer
     @Override
     public Version<E> getVersion(MinecraftVersion minecraftVersion) {
 //        return minecraftVersion.getVersion();
-        return versionSet;
+        //return versionSet;
+        return null;
     }
 
     private static class Register<V extends Versioned, E>{
