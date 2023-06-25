@@ -278,6 +278,47 @@ public class ItemMetaEditor implements ItemEditor, Editor {
     }
 
 
+
+    /*
+
+        ***********************************************************************************************
+
+
+        Instead of having a method for each meta types. We should use a generic method
+
+public <T extends MetaBuilder> T getMetaBuilder(Class<T> metaClass) {
+    ItemMeta meta = item.getItemMeta();
+    if (metaClass.isInstance(meta)) {
+        try {
+            Constructor<T> constructor = metaClass.getConstructor(ItemMeta.class);
+            return constructor.newInstance(meta);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("Unable to retrieve meta", e);
+        }
+    }
+    throw new IllegalStateException("This ItemStack does not have " + metaClass.getSimpleName());
+}
+
+public <T extends MetaEditor<T>> ItemEditor usingEditor(T editorInstance, Consumer<T> editor) {
+    editor.accept(editorInstance);
+    return this;
+}
+
+     */
+    public <T> ItemEditor usingEditor(Consumer<T> editor) {
+        T t; //Create the T class instance, if it can't be casted we return this.
+        //apply
+        editor.accept(t);
+        return this;
+    }
+
+
+
+
+
+
+
+
     @Override
     public ItemEditor modifyPotionMeta(Consumer<PotionEditor> potionEditorConsumer) {
         if (getDefaultItemMeta() instanceof PotionMeta) {
