@@ -2,7 +2,7 @@ package net.azura.version.types;
 
 import net.azura.version.container.Versioned;
 
-public enum MinecraftVersion implements Versioned {
+public enum MinecraftVersion {
     LATEST("1.19.4", 38),
     V_1_19_4("1.19.4",38),
     V_1_19_3("1.19.3",37),

@@ -41,7 +41,8 @@ public final class OldVersion<E extends Versioned> {
     }
 
     public String getVersion() {
-        return element.getVersion();
+        return "";
+        //return element.getVersion();
     }
     public static <E extends Versioned> void registerVersion(E element, Class<E> clazz){
         new OldVersion(element, clazz);

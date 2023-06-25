@@ -6,8 +6,9 @@ public class EditorToolV1 implements EditorTool {
         System.out.println("Hello from inside EditorToolV1");
     }
 
+
     @Override
-    public String getVersion() {
-        return "V1";
+    public void isSupported() {
+
     }
 }
