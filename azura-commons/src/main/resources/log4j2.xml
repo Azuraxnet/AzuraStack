@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="error">
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout>
-                <MarkerPatternSelector defaultPattern="%sn. %msg: Logger=%logger%n">
-                    <PatternMatch key="CLASS" pattern="%sn. %msg: Class=%class%n"/>
-                </MarkerPatternSelector>
-            </PatternLayout>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="TRACE">
-            <AppenderRef ref="Console" />
+        <!-- avoid duplicated logs with additivity=false -->
+        <Logger name="net.azura" level="debug" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="LogToConsole"/>
         </Root>
     </Loggers>
 </Configuration>

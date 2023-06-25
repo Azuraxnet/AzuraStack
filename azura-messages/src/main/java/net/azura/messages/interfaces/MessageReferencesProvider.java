@@ -1,6 +1,7 @@
 package net.azura.messages.interfaces;
 
-import com.sun.istack.internal.Nullable;
+
+import org.jetbrains.annotations.Nullable;
 
 public interface MessageReferencesProvider {
     /**

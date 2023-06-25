@@ -35,7 +35,6 @@ public class MessageReferencesPopulator implements MessageReferencesProvider {
         if(references.containsKey(key)) {
             return references.get(key);
         }
-        System.out.println("ADDING DEFAULT VALUE: " + key + " WITH VALUE .");
         save(key, "");
         return references.get(key);
     }

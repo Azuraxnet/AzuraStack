@@ -1,5 +1,6 @@
 package net.azura.messages.loaders;
 
+import net.azura.messages.enums.Locale;
 import net.azura.messages.format.MessageFileFormat;
 import net.azura.messages.interfaces.MessageReferencesProvider;
 import net.azura.messages.interfaces.loading.FileFormat;
@@ -8,6 +9,8 @@ import net.azura.messages.matcher.FileMatcher;
 import net.azura.messages.messages.MessageReferences;
 import net.azura.messages.messages.MessageReferencesPopulator;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
@@ -45,10 +48,13 @@ public class PropertyFileLoader implements MessageLoader {
             throw new NullPointerException("The identifier specified was either null or empty.");
         }
         String fileName = messageFileFormat.getFormat().replace("<lang>", identifier);
-        if(!doesFileExist(fileName))return null;
+        if(!doesFileExist(fileName)) {
+            LOGGER.debug("The file for {} does not exist! Consider using the file initializer to create files.", identifier);
+            return null;
+        }
 
         if(!doesLocaleExist(identifier)) {
-            System.out.println("The locale " + identifier + " is not an official locale, and you should use at your own risk!");
+            LOGGER.warn("The locale {} is not an official locale, and you should use it at your own risk!", identifier);
         }
 
         Map<String, String> messages = new HashMap<>();
@@ -61,6 +67,7 @@ public class PropertyFileLoader implements MessageLoader {
                 messages.put(s, p.getProperty(s));
             }
         }catch (IOException e) {
+            LOGGER.error("The file {} does not exist!", file.getName(), e);
             e.printStackTrace();
         }
         if(!write)return new MessageReferences(messages);
@@ -79,7 +86,7 @@ public class PropertyFileLoader implements MessageLoader {
         if(files == null)return new String[0];
         for(File file : files) {
             if(!file.isFile())continue;
-            HashMap<String, String> matched = matcher.match(file.toString(), messageFileFormat.getFormat());
+            HashMap<String, String> matched = MATCHER.match(file.toString(), messageFileFormat.getFormat());
             String LANG = matched.get("lang");
             if(LANG == null)continue;
             supportedLocales.add(LANG.replace(".properties", ""));
@@ -98,5 +105,6 @@ public class PropertyFileLoader implements MessageLoader {
         return true;
     }
 
-    protected final FileMatcher matcher = new FileMatcher('<', '>');
+    protected static final FileMatcher MATCHER = new FileMatcher('<', '>');
+    protected static final Logger LOGGER = LogManager.getLogger(PropertyFileLoader.class);
 }

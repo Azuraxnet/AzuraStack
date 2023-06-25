@@ -4,6 +4,8 @@ import net.azura.messages.format.MessageFileFormat;
 import net.azura.messages.interfaces.loading.FileFormat;
 import net.azura.messages.loaders.PropertyFileInitializer;
 import net.azura.messages.loaders.PropertyFileLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +35,7 @@ public class PropertyFileInitializerTest {
     @Test
     public void testInitializeFileAndValidateExists() {
         String fileName = generateString();
-        System.out.println("Attempting to initialize a lang file called " + fileName + ".properties");
+        LOGGER.debug("Attempting to initialize a lang file called {}.properties", fileName);
         propertyFileInitializer.load(fileName);
 
         file = new File(path + "/" + fileFormat.getFormat().replace("<lang>", fileName) + ".properties");
@@ -58,4 +60,6 @@ public class PropertyFileInitializerTest {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
     }
+
+    protected static final Logger LOGGER = LogManager.getLogger(PropertyFileInitializerTest.class);
 }

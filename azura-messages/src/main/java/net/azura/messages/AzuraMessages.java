@@ -6,6 +6,8 @@ import net.azura.messages.interfaces.MessageReferencesProvider;
 import net.azura.messages.interfaces.loading.FileFormat;
 import net.azura.messages.interfaces.loading.MessageLoader;
 import net.azura.messages.loaders.PropertyFileLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Path;
 
@@ -38,10 +40,12 @@ public class AzuraMessages implements AzuraLocaleProvider {
 
     @Override
     public void setLocalization(String localization) {
-        if(this.localization != null && this.localization.equals(localization))return;
+        if(this.localization != null && this.localization.equals(localization)) {
+            LOGGER.debug("The localization is already set to {}", localization);
+            return;
+        }
 
         this.localization = localization;
-
         this.messageReferences = messageLoader.load(localization);
     }
 
@@ -59,4 +63,6 @@ public class AzuraMessages implements AzuraLocaleProvider {
     public MessageReferencesProvider getMessageReferences() {
         return messageReferences;
     }
+
+    protected static final Logger LOGGER = LogManager.getLogger(AzuraMessages.class);
 }

@@ -3,6 +3,8 @@ package net.azura.messages.loaders;
 import net.azura.messages.interfaces.MessageReferencesProvider;
 import net.azura.messages.interfaces.loading.FileFormat;
 import net.azura.messages.interfaces.loading.MessageLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +32,7 @@ public class PropertyFileInitializer implements MessageLoader {
             file.createNewFile();
             return messageLoader.load(identifier);
         } catch (IOException e) {
-            System.out.println("An error occurred when attempting to create the file.");
+            LOGGER.error("An unexpected error occurred whilst attempting to create the file {}.", fileName, e);
             return null;
         }
     }
@@ -39,4 +41,6 @@ public class PropertyFileInitializer implements MessageLoader {
     public String[] getSupportedLocalizations() {
         return messageLoader.getSupportedLocalizations();
     }
+
+    protected static final Logger LOGGER = LogManager.getLogger(PropertyFileInitializer.class);
 }
