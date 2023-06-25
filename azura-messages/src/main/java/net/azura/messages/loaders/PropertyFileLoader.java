@@ -1,6 +1,8 @@
 package net.azura.messages.loaders;
 
 import net.azura.messages.enums.Locale;
+import net.azura.messages.exceptions.LanguageDirectoryDoesNotExistException;
+import net.azura.messages.exceptions.LanguageFileDoesNotExistException;
 import net.azura.messages.format.MessageFileFormat;
 import net.azura.messages.interfaces.MessageReferencesProvider;
 import net.azura.messages.interfaces.loading.FileFormat;
@@ -13,8 +15,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -47,12 +51,13 @@ public class PropertyFileLoader implements MessageLoader {
         if(StringUtils.isBlank(identifier)) {
             throw new NullPointerException("The identifier specified was either null or empty.");
         }
+        if(!doesDirectoryExist(path.toFile())) {
+            throw new LanguageDirectoryDoesNotExistException("The directory " + path.toString() + " does not exist.");
+        }
         String fileName = messageFileFormat.getFormat().replace("<lang>", identifier);
         if(!doesFileExist(fileName)) {
-            LOGGER.debug("The file for {} does not exist! Consider using the file initializer to create files.", identifier);
-            return null;
+            throw new LanguageFileDoesNotExistException("The file for " + identifier +" does not exist!");
         }
-
         if(!doesLocaleExist(identifier)) {
             LOGGER.warn("The locale {} is not an official locale, and you should use it at your own risk!", identifier);
         }
@@ -103,6 +108,10 @@ public class PropertyFileLoader implements MessageLoader {
             return false;
         }
         return true;
+    }
+
+    private boolean doesDirectoryExist(File directory) {
+        return directory.exists();
     }
 
     protected static final FileMatcher MATCHER = new FileMatcher('<', '>');

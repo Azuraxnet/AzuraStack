@@ -35,7 +35,7 @@ public class PropertyFileInitializerTest {
     @Test
     public void testInitializeFileAndValidateExists() {
         String fileName = generateString();
-        LOGGER.debug("Attempting to initialize a lang file called {}.properties", fileName);
+        LOGGER.info("Attempting to initialize a lang file called {}.properties", fileName);
         propertyFileInitializer.load(fileName);
 
         file = new File(path + "/" + fileFormat.getFormat().replace("<lang>", fileName) + ".properties");
@@ -61,5 +61,5 @@ public class PropertyFileInitializerTest {
                 .toString();
     }
 
-    protected static final Logger LOGGER = LogManager.getLogger(PropertyFileInitializerTest.class);
+    protected static final Logger LOGGER = LogManager.getLogger("test");
 }

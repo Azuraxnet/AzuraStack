@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -27,6 +28,10 @@ public class PropertyFileInitializer implements MessageLoader {
     @Override
     public MessageReferencesProvider load(String identifier) {
         String fileName = fileFormat.getFormat().replace("<lang>", identifier);
+        File directory = path.toFile();
+        if(!doesDirectoryExist(directory)) {
+            createDirectory(path);
+        }
         File file = new File(path.toString() + "/" + fileName + ".properties");
         try {
             file.createNewFile();
@@ -35,6 +40,19 @@ public class PropertyFileInitializer implements MessageLoader {
             LOGGER.error("An unexpected error occurred whilst attempting to create the file {}.", fileName, e);
             return null;
         }
+    }
+
+    private void createDirectory(Path path) {
+        try {
+            Files.createDirectory(path);
+            LOGGER.debug("The directory {} does not exist. Creating directory.", path.toString());
+        } catch (IOException e) {
+            LOGGER.error("An error occurred whilst trying to create the directory.", e);
+        }
+    }
+
+    private boolean doesDirectoryExist(File directory) {
+        return directory.exists();
     }
 
     @Override
