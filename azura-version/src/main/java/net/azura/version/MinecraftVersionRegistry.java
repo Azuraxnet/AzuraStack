@@ -10,16 +10,16 @@ import java.util.Map;
 import java.util.TreeSet;
 
 public class MinecraftVersionRegistry<E> implements VersionRegistry<MinecraftVersion, E> {
-    private TreeSet<Register<MinecraftVersion,E>> versionSet = new TreeSet<>();
+    //private TreeSet<Register<MinecraftVersion,E>> versionSet = new TreeSet<>();
     @Override
     public void register(MinecraftVersion minecraftVersion, Version<E> version) {
-        if(version == null){
-            throw new IllegalArgumentException("Version cannot be null");
-        }
-        if(minecraftVersion == null){
-            throw new IllegalArgumentException("MinecraftVersion cannot be null");
-        }
-        versionSet.add(new Register<>(minecraftVersion,version));
+//        if(version == null){
+//            throw new IllegalArgumentException("Version cannot be null");
+//        }
+//        if(minecraftVersion == null){
+//            throw new IllegalArgumentException("MinecraftVersion cannot be null");
+//        }
+//        versionSet.add(new Register<>(minecraftVersion,version));
 //        versionMap.put(minecraftVersion, version);
     }
 

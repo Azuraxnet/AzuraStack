@@ -7,7 +7,7 @@ public class EditorToolV2 implements EditorTool {
     }
 
     @Override
-    public String getVersion() {
-        return "V1";
+    public void isSupported() {
+
     }
 }

@@ -15,6 +15,7 @@
         <module>azura-item</module>
         <module>azura-version</module>
         <module>azura-inventory</module>
+        <module>azura-messages</module>
     </modules>
 
     <properties>
