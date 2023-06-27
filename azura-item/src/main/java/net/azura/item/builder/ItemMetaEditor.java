@@ -3,7 +3,6 @@ package net.azura.item.builder;
 import net.azura.item.editors.banner.BannerEditor;
 import net.azura.item.editors.banner.ItemBannerEditor;
 import net.azura.item.editors.book.BookEditor;
-import net.azura.item.editors.book.ItemBookEditor;
 import net.azura.item.editors.compass.CompassEditor;
 import net.azura.item.editors.compass.ItemCompassEditor;
 import net.azura.item.editors.crossbow.CrossbowEditor;
@@ -22,6 +21,7 @@ import net.azura.item.editors.skull.ItemSkullEditor;
 import net.azura.item.editors.skull.SkullEditor;
 import net.azura.item.exception.MetaDataUnavailableException;
 import net.azura.item.editors.*;
+import net.azura.newitem.general.GenericMetaEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -33,6 +33,7 @@ import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -324,14 +325,35 @@ public <T extends MetaEditor<T>> ItemEditor usingEditor(T editorInstance, Consum
     return this;
 }
 
-     */
-    public <T> ItemEditor usingEditor(Consumer<T> editor) {
-//        T t; //Create the T class instance, if it can't be casted we return this.
-//        //apply
-//        editor.accept(t);
-        return this;
+*/
+
+    public <T extends GenericMetaEditor<M>, M extends ItemMeta> void editMeta(Class<T> clazz, Consumer<Void> consumer, Runnable error){
+        // Instantiate T from Class<T>
+        T t = null;
+        try {
+            t = clazz.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+            error.run();
+            return;
+        }
+
+        // Check if Class<T> can support the meta that we would like. MetaEditor would have something like MetaEditor<BookMeta>
+//        if(!t.supports(M.class)) {
+//            error.run();
+//            return;
+//        }
+
+        // If T supports the MetaEditor type and instantiation was successful, call the consumer.
+        consumer.accept(null);
     }
 
+    public <T extends GenericMetaEditor<M>, M extends ItemMeta> void editMeta(Class<T> clazz, Consumer<Void> consumer){
+        editMeta(clazz, consumer, () -> {
+            // Handle error here. This could involve logging the error, or some other kind of notification.
+            System.err.println("Error occurred in editMeta. The specified MetaEditor does not support the desired meta type.");
+        });
+    }
 
 
 
@@ -390,7 +412,7 @@ public <T extends MetaEditor<T>> ItemEditor usingEditor(T editorInstance, Consum
     @Override
     public ItemEditor modifyBookMeta(Consumer<BookEditor> bookEditorConsumer) {
         if (getDefaultItemMeta() instanceof BookMeta) {
-            bookEditorConsumer.accept(new ItemBookEditor(this));
+            //bookEditorConsumer.accept(new ItemBoodwkEditor(this));
         }
         return this;
     }

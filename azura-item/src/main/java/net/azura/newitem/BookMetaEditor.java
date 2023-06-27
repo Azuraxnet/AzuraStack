@@ -1,11 +1,10 @@
-package net.azura.item.editors.book;
+package net.azura.newitem;
 
-import net.azura.item.editors.MetaEditor;
 import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.List;
 
-public interface BookMetaEditor extends MetaEditor<BookMetaEditor, BookMeta> {
+public interface BookMetaEditor {
 
     /* General */
     BookMetaEditor setBookType(BookMeta.Generation generation);
